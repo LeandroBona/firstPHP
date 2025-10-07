@@ -20,8 +20,27 @@
             </thead>
             <tbody>
                 <?php
-                
-                
+                    include 'config.php';
+
+                    // consulta no bd
+                    $sql = "SELECT id, nome, email, data_cadastro FROM usuarios";
+                    $resultado = $conexao->query($sql);
+
+                    if($resultado->num_rows > 0){
+                        // exibir os dados na tela
+                        while($linha = $resultado->fetch_assoc()){
+                            echo "<tr>";
+                            echo "<td>" . $linha["id"] . "</td>";
+                            echo "<td>" . $linha["nome"] . "</td>";
+                            echo "<td>" . $linha["email"] . "</td>";
+                            echo "<td>" . date('d/m/Y H:i:s', strtotime($linha["data_cadastro"])) . "</td>";
+                            echo "</tr>";
+                        }
+                    }else{
+                        echo "<tr><td colspan='4'>Nenhum Usuários Cadastrado</td></tr>";
+                    }
+                    
+                    $conexao->close();
                 ?>
             </tbody>
         </table>
